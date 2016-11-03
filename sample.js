@@ -17,9 +17,16 @@
 // Load the SDK and UUID
 var AWS = require('aws-sdk');
 var uuid = require('node-uuid');
+var proxy = require('proxy-agent');
+
+AWS.config.update({
+	httpOtions: {
+		agent: proxy('http://10.3.100.207:8080')
+	}
+});
 
 // Create an S3 client
-var s3 = new AWS.S3();
+var s3 = new AWS.S3({region: 'us-west-2'});
 
 // Create a bucket and upload something into it
 var bucketName = 'node-sdk-sample-' + uuid.v4();
